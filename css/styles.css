@@ -20,6 +20,18 @@ h1 {
   color: rgb(219, 55, 40);
 }
 
+h5 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-style: italic;
+  color: rgb(219, 55, 40);
+}
+.errorMsg {
+  min-height: 20px;
+}
+.errorMsg h5{
+  margin:5px 0;
+}
 div#infoback {
   position:absolute; top: 0; right: 0;
   bottom: 0; width: 360px; background:#2A0A0A;

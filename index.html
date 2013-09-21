@@ -4,26 +4,13 @@
   <title>Wildfires | US</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet"
-    href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
   <![endif]-->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" media="screen" type="text/css" href="lib/pikaday/css/pikaday.css" />
+  <link rel="stylesheet" href="css/styles.css" />
   <!--[if lte IE 8]><link rel="stylesheet" href="markercluster/MarkerCluster.Default.ie.css" /><![endif]-->
-  <link rel="points" href="fires.geojson"/>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-  </script>
-  <script>
-  $(document).ready(function(){
-    $("#sidebar-off").click(function(){
-    $("#infoback").hide('slow');
-    });
-    $("#sidebar-on").click(function(){
-    $("#infoback").show('slow');
-    });
-  });
-  </script>
 </head>
 <body>
   <div id="map"></div>
@@ -40,87 +27,37 @@
   <div id='infoback'>
     <div id='info'>
     <h1>US Wildfires</h1>
-    <strong>2013-03-09 Source: <a href="http://activefiremaps.fs.fed.us/lg_fire2.php#">Active Fire Mapping Program</a>.</strong>
-  
+    <h5>Grab a date below...</h5>
+    <input class="inputDate" id="datepicker"></input>
+    <div class="errorMsg">
+      <h5 id="msg"></h5>
+    </div>
+    <strong>Source: <a href="http://activefiremaps.fs.fed.us/lg_fire2.php#">Active Fire Mapping Program</a>, via <a href="http://fire-api.herokuapp.com/">Fire-API</a></strong>
+    <br>
     <p>
-      These data points represent current large fire incidents in the United States. Data are from the <a href="http://activefiremaps.fs.fed.us/">Active Fire Mapping Program</a> at the US Forest Service. The size of the circle marker represents the size of the fire.
+      These data represent large fire incidents in the United States. Data are from the <a href="http://activefiremaps.fs.fed.us/">Active Fire Mapping Program</a> at the US Forest Service. The size of the circle marker represents the size of the fire.
     </p>
     <p>
-      The hope is to keep this up to date with new publishings from the Forest Service. The basemaps being used are from <a href="http://mapbox.com">Mapbox</a> and the mapping javascript library is <a href="http://leafletjs.com">Leaflet</a>. 
+      The basemaps being used are from <a href="http://mapbox.com">Mapbox</a> and the mapping javascript library is <a href="http://leafletjs.com">Leaflet</a>. 
     </p>
     <p class="disclaimer">
-      The information on this map was derived from USFS. Grafa cannot accept any responsibility for errors, omissions, or positional accuracy. There are no warranties, expressed or implied, including the warranty of merchantability or fitness for a particular purpose, accompanying this product. However, notification of any errors will be appreciated.
+      The information on this map was derived from USFS. This map's creators cannot accept any responsibility for errors, omissions, or positional accuracy. There are no warranties, expressed or implied, including the warranty of merchantability or fitness for a particular purpose, accompanying this product. However, notification of any errors will be appreciated.
     </p></div>
   </div>
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
-
+  <script type="text/javascript" src="lib/pikaday/js/pikaday.js"></script>
+  <script type="text/javascript" src="js/map.js"></script>
   <script>
-  var terrain = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/grafa.map-8cndm7h3/{z}/{x}/{y}.png', {
-      attribution: "<a href='http://mapbox.com'>Mapbox</a>"
-      });
-
-  var streets = L.tileLayer(
-    'http://api.tiles.mapbox.com/v3/grafa.map-omtiruqb/{z}/{x}/{y}.png', {
-      attribution: "<a href='http://mapbox.com'>Mapbox</a>"
-      });
-  function addCommas(nStr){
-    nStr += '';
-    x = nStr.split('.');
-    x1 = x[0];
-    x2 = x.length > 1 ? '.' + x[1] : '';
-    var rgx = /(\d+)(\d{3})/;
-    while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
-    }
-    return x1 + x2;
-  }
-  function getRadius(n) {
-      return n > 200000 ? 24 :
-      n > 100000 ? 20 :
-      n > 50000 ? 16 :
-      n > 25000 ? 12 :
-      n > 15000 ? 8 :
-      n > 5000 ? 4 :
-        2;
-  }
-  function geojsonMarkerOptions(feature) {
-      return {
-          radius: getRadius(feature.properties.area),
-          color: '#990000',
-          fillColor: "#990000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.7
-      }
-  };
-  function onEachFeature(feature, layer) {
-    layer.bindPopup('<h2>' + feature.properties.fire_name + '</h2>'+ 
-      '<strong>Fire Number: </strong>' + feature.properties.fire_number + '<br />' + 
-      '<strong>Acres Burned: </strong>' + addCommas(feature.properties.area) + '<br />' + 
-      '<strong>Report Date: </strong>' + feature.properties.report_date
-      );
-  }
-  var map = L.map('map');
-  terrain.addTo(map);
-  L.control.layers({
-      "Terrain (default)": terrain,
-      "Mapbox Streets": streets
-  }).addTo(map);
-
-  /* Load points GeoJSON and add to map */
-  $.getJSON($('link[rel="points"]').attr("href"), function(data) {
-      var geojsonlayer = L.geoJson(data, {
-          onEachFeature: onEachFeature,
-          pointToLayer: function (feature, latlng) {
-              return L.circleMarker(latlng, geojsonMarkerOptions(feature));
-          }
-      });
-      geojsonlayer.addTo(map);
-      map.fitBounds(geojsonlayer.getBounds());
-   });
-
+  $(document).ready(function(){
+    $("#sidebar-off").click(function(){
+      $("#infoback").hide('slow');
+    });
+    $("#sidebar-on").click(function(){
+      $("#infoback").show('slow');
+    });
+  });
   </script>
+  
 </body>
 </html>
