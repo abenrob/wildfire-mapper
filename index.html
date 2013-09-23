@@ -26,23 +26,30 @@
   </div>
   <div id='infoback'>
     <div id='info'>
-    <h1>US Wildfires</h1>
-    <h5>Grab a date below...</h5>
-    <input class="inputDate" id="datepicker"></input>
-    <div class="errorMsg">
-      <h5 id="msg"></h5>
+      <h1>US Wildfires</h1>
+      <h5>Grab a date below...</h5>
+      <input class="inputDate" id="datepicker"></input>
+      <div class="errorMsg">
+        <h5 id="msg"></h5>
+      </div>
+      <div class="item">
+        <div class="expandacc closed">
+          <h4>Sources/Info:</h4>
+        </div>
+        <div class="contentacc">
+          <strong><a href="http://activefiremaps.fs.fed.us/lg_fire2.php#">Active Fire Mapping Program</a>, via <a href="http://fire-api.herokuapp.com/">Fire-API</a></strong>
+          <p>
+            These data represent large fire incidents in the United States. Data are from the <a href="http://activefiremaps.fs.fed.us/">Active Fire Mapping Program</a> at the US Forest Service. The size of the circle marker represents the size of the fire.
+          </p>
+          <p>
+            The basemaps being used are from <a href="http://mapbox.com">Mapbox</a> and the mapping javascript library is <a href="http://leafletjs.com">Leaflet</a>. 
+          </p>
+          <p class="disclaimer">
+            The information on this map was derived from USFS. This map's creators cannot accept any responsibility for errors, omissions, or positional accuracy. There are no warranties, expressed or implied, including the warranty of merchantability or fitness for a particular purpose, accompanying this product. However, notification of any errors will be appreciated.
+          </p>
+        </div>
+      </div>
     </div>
-    <strong>Source: <a href="http://activefiremaps.fs.fed.us/lg_fire2.php#">Active Fire Mapping Program</a>, via <a href="http://fire-api.herokuapp.com/">Fire-API</a></strong>
-    <br>
-    <p>
-      These data represent large fire incidents in the United States. Data are from the <a href="http://activefiremaps.fs.fed.us/">Active Fire Mapping Program</a> at the US Forest Service. The size of the circle marker represents the size of the fire.
-    </p>
-    <p>
-      The basemaps being used are from <a href="http://mapbox.com">Mapbox</a> and the mapping javascript library is <a href="http://leafletjs.com">Leaflet</a>. 
-    </p>
-    <p class="disclaimer">
-      The information on this map was derived from USFS. This map's creators cannot accept any responsibility for errors, omissions, or positional accuracy. There are no warranties, expressed or implied, including the warranty of merchantability or fitness for a particular purpose, accompanying this product. However, notification of any errors will be appreciated.
-    </p></div>
   </div>
   <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
   <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
@@ -55,6 +62,11 @@
     });
     $("#sidebar-on").click(function(){
       $("#infoback").show('slow');
+    });
+    $('.item .expandacc').click(function() {
+      $('.item .expandacc').not(this).removeClass("open").addClass("closed").siblings('.contentacc').slideUp('normal');
+      $(this).next('.contentacc').slideToggle('normal');
+      $(this).toggleClass("closed").toggleClass("open");
     });
   });
   </script>
