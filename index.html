@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wildfires | US</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+  <![endif]-->
+  <link rel="stylesheet" media="screen" type="text/css" href="lib/pikaday/css/pikaday.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="markercluster/MarkerCluster.Default.ie.css" /><![endif]-->
+</head>
+<body>
+  <div id="map"></div>
+  <div id='collapse'>
+    <div class="switch switch-yellow">
+      <input type="radio" class="switch-input" name="view3" value="sidebar-on" id="sidebar-on" checked>
+      <label for="sidebar-on" class="switch-label switch-label-off">Show</label>
+
+      <input type="radio" class="switch-input" name="view3" value="sidebar-off" id="sidebar-off">
+      <label for="sidebar-off" class="switch-label switch-label-on">Hide</label>
+      <span class="switch-selection"></span>
+    </div>
+  </div>
+  <div id='infoback'>
+    <div id='info'>
+    <h1>US Wildfires</h1>
+    <h5>Grab a date below...</h5>
+    <input class="inputDate" id="datepicker"></input>
+    <div class="errorMsg">
+      <h5 id="msg"></h5>
+    </div>
+    <strong>Source: <a href="http://activefiremaps.fs.fed.us/lg_fire2.php#">Active Fire Mapping Program</a>, via <a href="http://fire-api.herokuapp.com/">Fire-API</a></strong>
+    <br>
+    <p>
+      These data represent large fire incidents in the United States. Data are from the <a href="http://activefiremaps.fs.fed.us/">Active Fire Mapping Program</a> at the US Forest Service. The size of the circle marker represents the size of the fire.
+    </p>
+    <p>
+      The basemaps being used are from <a href="http://mapbox.com">Mapbox</a> and the mapping javascript library is <a href="http://leafletjs.com">Leaflet</a>. 
+    </p>
+    <p class="disclaimer">
+      The information on this map was derived from USFS. This map's creators cannot accept any responsibility for errors, omissions, or positional accuracy. There are no warranties, expressed or implied, including the warranty of merchantability or fitness for a particular purpose, accompanying this product. However, notification of any errors will be appreciated.
+    </p></div>
+  </div>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+  <script type="text/javascript" src="lib/pikaday/js/pikaday.js"></script>
+  <script type="text/javascript" src="js/map.js"></script>
+  <script>
+  $(document).ready(function(){
+    $("#sidebar-off").click(function(){
+      $("#infoback").hide('slow');
+    });
+    $("#sidebar-on").click(function(){
+      $("#infoback").show('slow');
+    });
+  });
+  </script>
+  
+</body>
+</html>
