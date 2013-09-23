@@ -1,11 +1,11 @@
 var geojsonlayer;
-var terrain = L.tileLayer(
-  'http://api.tiles.mapbox.com/v3/grafa.map-8cndm7h3/{z}/{x}/{y}.png', {
+var dark = L.tileLayer(
+  'http://api.tiles.mapbox.com/v3/abenrob.map-tiwbgcsw/{z}/{x}/{y}.png', {
     attribution: "<a href='http://mapbox.com'>Mapbox</a>"
     });
 
 var streets = L.tileLayer(
-  'http://api.tiles.mapbox.com/v3/grafa.map-omtiruqb/{z}/{x}/{y}.png', {
+  'http://api.tiles.mapbox.com/v3/abenrob.map-ivqurg3c/{z}/{x}/{y}.png', {
     attribution: "<a href='http://mapbox.com'>Mapbox</a>"
     });
 function addCommas(nStr){
@@ -46,10 +46,10 @@ function onEachFeature(feature, layer) {
 } 
 var USBounds = [[24, -125],[50, -66]]
 var map = L.map('map');
-terrain.addTo(map);
+dark.addTo(map);
 map.fitBounds(USBounds);
 L.control.layers({
-    "Darkness (default)": terrain,
+    "Darkness (default)": dark,
     "Mapbox Streets": streets
 }).addTo(map);
 
