@@ -39,6 +39,10 @@ div#infoback {
   filter:alpha(opacity=60); /* For IE8 and earlier */
 }
 
+div#collapse {
+  position:absolute; top: 0; right: 131px;
+}
+
 div#info { 
   margin: 132px 72px;
 }
