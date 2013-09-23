@@ -51,6 +51,14 @@ div#info h2 {
   margin-bottom: 0px;
 }
 
+.item .expandacc {
+    cursor: pointer;
+}
+
+.item .contentacc {
+    display:none;
+}
+
 #map {   
   position:absolute; 
   top:0; 
